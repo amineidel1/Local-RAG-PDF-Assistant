@@ -1,15 +1,19 @@
 from sentence_transformers import SentenceTransformer
 from chunking import create_chunks
 import chromadb
+from pathlib import Path
 
 # Charger le modèle embeddings
 model = SentenceTransformer(
     "sentence-transformers/all-MiniLM-L6-v2"
 )
 
-# Initialiser ChromaDB
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+CHROMA_PATH = BASE_DIR / "data" / "chroma_db"
+
 client = chromadb.PersistentClient(
-    path="./data/chroma_db"
+    path=str(CHROMA_PATH)
 )
 
 collection = client.get_or_create_collection(

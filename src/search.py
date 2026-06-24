@@ -1,14 +1,18 @@
 from sentence_transformers import SentenceTransformer
 import chromadb
+from pathlib import Path
 
 # Charger modèle embeddings
 model = SentenceTransformer(
     "sentence-transformers/all-MiniLM-L6-v2"
 )
 
-# Connexion ChromaDB
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+CHROMA_PATH = BASE_DIR / "data" / "chroma_db"
+
 client = chromadb.PersistentClient(
-    path="./data/chroma_db"
+    path=str(CHROMA_PATH)
 )
 
 collection = client.get_collection(
