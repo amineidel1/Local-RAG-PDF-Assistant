@@ -1,22 +1,26 @@
 import fitz
 from pathlib import Path
 
-PDF_FOLDER = "data"
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+PDF_FOLDER = BASE_DIR / "data" / "pdfs"
+
 
 def extract_pdf(pdf_path):
     doc = fitz.open(pdf_path)
 
     pages = []
 
-    for page_num, page in enumerate(doc):
-        text = page.get_text()
+    for page_num in range(len(doc)):
+        page = doc.load_page(page_num)
 
         pages.append({
             "page": page_num + 1,
-            "text": text
+            "text": page.get_text()
         })
 
     return pages
+
 
 if __name__ == "__main__":
 
